@@ -1,0 +1,95 @@
+/*----------------------------------------------------------------------------*/
+/*                                                                            */
+/*    Module:       main.cpp                                                  */
+/*    Author:       C:\Users\4mehe                                            */
+/*    Created:      Wed Jun 22 2022                                           */
+/*    Description:  V5 project                                                */
+/*                                                                            */
+/*----------------------------------------------------------------------------*/
+
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// Controller1          controller                    
+// Launcher1            motor         5               
+// Launcher2            motor         6               
+// Distance7            distance      7               
+// GPS8                 gps           8               
+// Vision9              vision        9               
+// Con1                 motor         10              
+// Con2                 motor         11              
+// Drivetrain           drivetrain    1, 2, 3         
+// roller               motor         13              
+// ---- END VEXCODE CONFIGURED DEVICES ----
+
+#include "vex.h"
+
+using namespace vex;
+
+int main() {
+
+  //Drivetrain.driveFor(forward, 3, inches);
+  // Initializing Robot Configuration. DO NOT REMOVE!
+  vexcodeInit();
+}
+double North = Distance7.objectDistance(inches);
+double east = Distance7.objectDistance(inches);
+double South = Distance7.objectDistance(inches);
+double west = Distance7.objectDistance(inches);
+double Width = North + South;
+double w1 = Width/2;
+double length = east + west;
+double l1 = length/2;
+double l14 = l1/2;
+double w14 = w1/2;
+double west2 = west - 2;
+double South2 = South - 2;
+double s1 = South+1;
+double east12 = 96 - east;
+double nspot = 24 - South;
+void dsdnw(){
+  Brain.Screen.clearScreen();
+}
+void hitwall(){
+
+}
+void ifwork(){
+  Drivetrain.driveFor(forward, east12, inches);
+  Drivetrain.setRotation(90, deg);
+  Drivetrain.turn(left);
+  Drivetrain.driveFor(forward, nspot, inches);
+}
+void wall(){
+  double wall = Distance7.objectDistance(inches);
+  Drivetrain.driveFor(forward, s1, inches);
+}
+void grid(){
+  double North = Distance7.objectDistance(inches);
+  Drivetrain.setRotation(90, deg);
+  Drivetrain.turn(right);
+  double east = Distance7.objectDistance(inches);
+  Drivetrain.setRotation(90, deg);
+  Drivetrain.turn(right);
+  double South = Distance7.objectDistance(inches);
+  Drivetrain.setRotation(90, deg);
+  Drivetrain.turn(right);
+  double west = Distance7.objectDistance(inches);
+  double Width = North + South;
+  double w1 = Width/2;
+  double length = east + west;
+  double l1 = length/2;
+  double l14 = l1/2;
+  double w14 = w1/2;
+  wall();
+}
+void distancesensor(){
+  int d1 = Distance7.objectDistance(inches);
+  if(d1 > 145.2){
+    dsdnw();
+  }else{
+    grid();
+  }
+}
+void autonomous(){
+  distancesensor();
+}
